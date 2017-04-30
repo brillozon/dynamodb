@@ -1,0 +1,19 @@
+
+version: '2'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "brillozon/dynamodb"
+    volumes:
+      - code:/dynamodb_code
+      - data:/dynamodb_data
+    ports:
+      - "8000:8000"
+
+volumes:
+  code:
+  data:
+
