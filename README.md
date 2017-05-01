@@ -2,8 +2,8 @@
 # dynamodb - container with a local instance of dynamodb
 
 This project can be used to build a docker image that contains
-an instance of the local dynamodb source code.  This image can
-then be used to serve as a dynamodb provider without needing
+an instance of the local DynamoDB source code.  This image can
+then be used to serve as a DynamoDB provider without needing
 access to the cloud or internet.  This can be useful for development
 or for execution in restricted environments.
 
@@ -11,14 +11,20 @@ A built image is available from docker hub and accessed by:
 
 > ```docker pull brillozon/dynamodb```
 
+The local DynamoDB instance can be explored interactively using
+the shell at location: http://localhost:8000/shell.
+
 ### Build
 
 Build an image:
 
 > ```docker-compose build```
 
-The image is based on an Alpine version of JRE 8.  This reduces
-the built image size to under 100MB (approximately 84MB).
+THe image is based on the JRE 8 base image.  An attempt was made
+to use the Alpine JRE 8 base image, but the DynamoDB code does not
+run correctly.  This will require additional investigation.  It is
+likely that additional packages need to be installed to the Alpine
+image.
 
 The default command is set to use the default port and place
 the code and data into named volumes of the image.
@@ -75,6 +81,18 @@ reference in Python to access the local DynamoDB instance include:
 > # For a Boto3 service resource
 > ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
 ```
+
+An example taken from the AWS documentation is included in
+the file [MoviesCreateTable.py](src/MoviesCreateTable.py)
+
+```bash
+> cd src
+> pip install -r requirements.txt
+> python MoviesCreateTable.py
+```
+
+You can find additional source and data files in the AWS
+[DynamoDB documentation](http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/GettingStarted.Python.html).
 
 #### Javascript
 
