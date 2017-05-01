@@ -1,8 +1,8 @@
-# Base image is JRE 8
-FROM openjdk:8-jre
+# Base image is alpine with JRE8
+FROM openjdk:8-jre-alpine
 
 # Need curl for the local db software loading
-RUN apt-get update &&  apt-get install curl
+RUN apk add --update --no-cache curl
 
 # Create the mount points for the code and data
 RUN mkdir /dynamodb_code /dynamodb_data
