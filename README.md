@@ -57,7 +57,9 @@ dynamodb instance.  Some of them are described here:
 Clients using the `aws` CLI should use the hostname and port where the
 instance is executing.
 
-> ```aws dynamodb list-tables --endpoint-url http://localhost:8000```
+```bash
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+```
 
 #### Python
 
@@ -65,7 +67,7 @@ From the [AWS Documentation](http://docs.aws.amazon.com/amazondynamodb/latest/ge
 a service resource reference can be created as:
  
 ```python
-> dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:8000")
+dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:8000")
 ```
 
 From [stack overflow](http://stackoverflow.com/a/32260680/3882815),
@@ -73,22 +75,22 @@ mechanisms for creating a client as well as service resource
 reference in Python to access the local DynamoDB instance include:
 
 ```python
-> import boto3
-> 
-> # For a Boto3 client.
-> ddb = boto3.client('dynamodb', endpoint_url='http://localhost:8000')
-> 
-> # For a Boto3 service resource
-> ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+import boto3
+
+# For a Boto3 client.
+ddb = boto3.client('dynamodb', endpoint_url='http://localhost:8000')
+
+# For a Boto3 service resource
+ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
 ```
 
 An example taken from the AWS documentation is included in
 the file [MoviesCreateTable.py](src/MoviesCreateTable.py)
 
 ```bash
-> cd src
-> pip install -r requirements.txt
-> python MoviesCreateTable.py
+cd src
+pip install -r requirements.txt
+python MoviesCreateTable.py
 ```
 
 You can find additional source and data files in the AWS
