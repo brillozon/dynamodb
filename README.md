@@ -20,7 +20,7 @@ Build an image:
 
 > ```docker-compose build```
 
-THe image is based on the JRE 8 base image.  An attempt was made
+The image is based on the JRE 8 base image.  An attempt was made
 to use the Alpine JRE 8 base image, but the DynamoDB code does not
 run correctly.  This will require additional investigation.  It is
 likely that additional packages need to be installed to the Alpine
@@ -52,12 +52,12 @@ Stop the instance:
 Clients in several languages can be used to access this local
 dynamodb instance.  Some of them are described here:
 
-#### Bash
+#### AWS CLI
 
-Clients using `curl` should use the hostname and port where the
+Clients using the `aws` CLI should use the hostname and port where the
 instance is executing.
 
-> ```curl htpp://localhost:8000/shell```
+> ```aws dynamodb list-tables --endpoint-url http://localhost:8000```
 
 #### Python
 
