@@ -7,18 +7,36 @@ then be used to serve as a DynamoDB provider without needing
 access to the cloud or internet.  This can be useful for development
 or for execution in restricted environments.
 
+## Executing from docker hub
+
+### Pull the image
+
 A built image is available from docker hub and accessed by:
 
-> ```docker pull brillozon/dynamodb```
+> `docker pull brillozon/dynamodb`
 
 The local DynamoDB instance can be explored interactively using
 the shell at location: http://localhost:8000/shell.
+
+### Run the image
+
+> `docker run -d -p 8000:8000 -v dynamodb\_code:/dynamodb\_code -v dynamodb\_data:/dynamodb\_data brillozon/dynamodb`
+
+This attaches the DynamoDB port to the host port 8000, and mounts
+the code and data volumes as named volumes on the local docker engine.
+This allows for persistence of tables and data as well as logs and
+configuration data over restarts of the local instance.
+
+## Development
+
+After cloning this repository, you can use the docker-compose.yml
+file to manage and develop projects using a local copy of DynamoDB. 
 
 ### Build
 
 Build an image:
 
-> ```docker-compose build```
+> `docker-compose build`
 
 The image is based on the JRE 8 base image.  An attempt was made
 to use the Alpine JRE 8 base image, but the DynamoDB code does not
@@ -33,7 +51,7 @@ the code and data into named volumes of the image.
 
 Start an instance:
 
-> ```docker-compose up -d ```
+> `docker-compose up -d `
 
 The compose file will mount a named volume for the code and
 another for the data used by the running instance.  This allows
@@ -45,7 +63,7 @@ on the host to provide access to the instance.
 
 Stop the instance:
 
-> ```docker-compose down```
+> `docker-compose down`
 
 ### Clients
 
@@ -59,7 +77,9 @@ instance is executing.
 
 ```bash
 aws dynamodb list-tables --endpoint-url http://localhost:8000
+
 ```
+
 
 #### Python
 
@@ -68,7 +88,9 @@ a service resource reference can be created as:
  
 ```python
 dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:8000")
+
 ```
+
 
 From [stack overflow](http://stackoverflow.com/a/32260680/3882815),
 mechanisms for creating a client as well as service resource
@@ -82,7 +104,9 @@ ddb = boto3.client('dynamodb', endpoint_url='http://localhost:8000')
 
 # For a Boto3 service resource
 ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+
 ```
+
 
 An example taken from the AWS documentation is included in
 the file [MoviesCreateTable.py](src/MoviesCreateTable.py)
@@ -91,7 +115,9 @@ the file [MoviesCreateTable.py](src/MoviesCreateTable.py)
 cd src
 pip install -r requirements.txt
 python MoviesCreateTable.py
+
 ```
+
 
 You can find additional source and data files in the AWS
 [DynamoDB documentation](http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/GettingStarted.Python.html).
@@ -104,17 +130,18 @@ the local instance by updating the configuration
 before creating the DynamoDB object:
 
 ```javascript
-> AWS.config.update({
->   region: "us-west-2",
->   endpoint: 'http://localhost:8000',
->   // accessKeyId default can be used while using the downloadable version of DynamoDB. 
->   // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
->   accessKeyId: "fakeMyKeyId",
->   // secretAccessKey default can be used while using the downloadable version of DynamoDB. 
->   // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
->   secretAccessKey: "fakeSecretAccessKey"
-> });
-> 
-> var dynamodb = new AWS.DynamoDB();
+AWS.config.update({
+  region: "us-west-2",
+  endpoint: 'http://localhost:8000',
+  // accessKeyId default can be used while using the downloadable version of DynamoDB. 
+  // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+  accessKeyId: "fakeMyKeyId",
+  // secretAccessKey default can be used while using the downloadable version of DynamoDB. 
+  // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+  secretAccessKey: "fakeSecretAccessKey"
+});
+
+var dynamodb = new AWS.DynamoDB();
+
 ```
 
